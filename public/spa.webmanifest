@@ -1,0 +1,31 @@
+{
+  "name": "따순물 찜질스파",
+  "short_name": "따순물 찜질스파",
+  "id": "./ttasun-spa.html",
+  "start_url": "./ttasun-spa.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1b2240",
+  "theme_color": "#1b2240",
+  "description": "함께 머무는 익명 3D 공간. 개발자: 홍서진",
+  "icons": [
+    {
+      "src": "icons/spa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/spa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/spa-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

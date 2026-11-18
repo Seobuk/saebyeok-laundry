@@ -1,0 +1,36 @@
+새벽빨래방 표지 적용 — 03 달빛 빨래멍
+개발자: 홍서진
+
+출처: 이 프로젝트를 위해 만든 표지 시안 03.
+GPT가 SVG 코드로 직접 작성한 도형/패스 원본이며 이미지 생성 도구의 출력물이 아닙니다.
+sources/에 원본 03_moon_icon.svg, 03_moon_og.svg, ttasun_spa_icon.svg를 보관합니다.
+라이선스는 저장소 LICENSE(MIT, 저작권자 홍서진)를 따릅니다.
+
+파일 / 크기 / 참조
+- icon-192.png: 192×192, manifest.webmanifest
+- icon-512.png: 512×512, manifest.webmanifest
+- maskable-512.png: 512×512, manifest.webmanifest (purpose=maskable)
+- apple-touch-icon.png: 180×180, 새벽빨래방 HTML
+- favicon-32.png: 32×32, 새벽빨래방 HTML
+- favicon.svg: 1024×1024 viewBox 벡터, 새벽빨래방 HTML
+- 03_moon_og.png: 1200×630, 새벽빨래방 og:image / twitter:image
+- spa- 접두사의 동일 6종: 같은 크기, spa.webmanifest / 따순물 찜질스파 HTML
+- spa-icon-512.png: 스파 og:image / twitter:image에도 사용
+
+새벽빨래방 아이콘은 03_moon_icon.svg, 공유 이미지는 03_moon_og.svg에서 렌더링.
+따순찜질스파는 지정된 ttasun_spa_icon.svg를 사용합니다. 이 스파 시안은
+01 네온 세탁창 프레임 기반이며, 새벽빨래방의 03 선택과 구분됩니다.
+maskable은 불투명 전체 배경과 원본의 중심 안전 영역을 그대로 유지합니다.
+
+iOS 시작 화면은 별도 크기별 이미지를 추가하는 대신 사용자 허용 대안인
+manifest background_color/theme_color 및 HTML theme-color를 원본 색 #1b2240으로
+적용했습니다. 03_moon_cover 시작 이미지는 추가하지 않았습니다.
+앱 안의 '개발자: 홍서진'은 유지하고 공유 title/description에도 표기합니다.
+메타 이미지 경로는 배포 주소 미지정으로 상대 경로입니다. 실제 소셜 서비스의
+미리보기 수집과 iOS/PWA 설치 표시는 배포 환경 및 실기기에서 별도 확인해야 합니다.
+
+재생성 (저장소 루트, 추가 설치 불필요):
+  /usr/bin/python3 scripts/build-cover-assets.py
+  npm run build
+  /usr/bin/python3 scripts/verify-cover-assets.py
+로컬 PyGObject/Rsvg/Cairo로 SVG를 직접 렌더링하며 다른 시안 이미지로 대체하지 않습니다.

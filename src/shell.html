@@ -1,0 +1,74 @@
+<title>{{TITLE}}</title>
+<meta name="theme-color" content="#1b2240">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="{{TITLE}}">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/{{ICON_PREFIX}}apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/{{ICON_PREFIX}}favicon-32.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="icons/{{ICON_PREFIX}}favicon.svg">
+<meta name="description" content="함께 머무는 익명 3D 공간, {{TITLE}}. 개발자: 홍서진">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{TITLE}} · 개발자 홍서진">
+<meta property="og:description" content="함께 머무는 익명 3D 공간, {{TITLE}}. 개발자: 홍서진">
+<meta property="og:image" content="{{OG_IMAGE}}">
+<meta property="og:image:width" content="{{OG_WIDTH}}">
+<meta property="og:image:height" content="{{OG_HEIGHT}}">
+<meta property="og:image:alt" content="{{OG_ALT}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{TITLE}} · 개발자 홍서진">
+<meta name="twitter:description" content="함께 머무는 익명 3D 공간, {{TITLE}}. 개발자: 홍서진">
+<meta name="twitter:image" content="{{OG_IMAGE}}">
+<meta name="twitter:image:alt" content="{{OG_ALT}}">
+<link rel="manifest" href="{{MANIFEST}}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600&display=swap">
+<script src="vendor/three.min.js"></script>
+<style>
+/* Layout: a small 3D room fills the screen; a header above and four large action buttons below. */
+:root{color-scheme:light;--bg:#f1f3f5;--fg:#1f2a3a;--muted:#5d6b7c;--card:#ffffff;--line:#dbe1e7;--accent:{{ACCENT}};--on:#ffffff;
+ --display:"Jua","Apple SD Gothic Neo",sans-serif;--body:"Noto Sans KR","Apple SD Gothic Neo",sans-serif}
+*{box-sizing:border-box}html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.4;overflow:hidden;padding:0}
+button{font:inherit;cursor:pointer}:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2{margin:0;font-family:var(--display);font-weight:400}p{margin:0}
+#app{height:100%;display:flex;flex-direction:column}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-block:10px 8px}
+h1{font-size:24px}
+#live{font-size:12px;padding:3px 10px;border-radius:99px;background:var(--card);border:1px solid var(--line);white-space:nowrap}
+#live[data-on="1"]{background:var(--accent);color:var(--on);border-color:var(--accent)}
+#stage{position:relative;flex:1;min-height:0;overflow:hidden}
+#cv{position:absolute;inset:0;display:block;width:100%!important;height:100%!important;touch-action:manipulation}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.tag{position:absolute;left:0;top:0;background:rgba(31,42,58,.72);color:#fff;font-size:11px;padding:1px 7px;border-radius:99px;white-space:nowrap}
+.tag.me{background:var(--accent);font-weight:600}.tag.ex{background:rgba(93,107,124,.62)}
+#toast{position:absolute;left:16px;right:16px;bottom:12px;background:var(--card);padding:10px 12px;border-radius:10px;text-align:center;box-shadow:0 4px 16px #1f2a3a33}
+#gate{position:absolute;left:16px;right:16px;bottom:14px;background:var(--card);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 8px 24px #1f2a3a26;max-width:480px;margin-inline:auto}
+#gate h2{font-size:22px;text-wrap:balance}
+.primary{background:var(--accent);color:var(--on);border:0;border-radius:10px;padding:12px;font-family:var(--display);font-size:18px}
+#bar{display:grid;grid-template-columns:repeat({{COLS}},minmax(0,1fr));gap:6px;padding-block:8px 4px}
+#bar button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:9px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;min-height:58px;justify-content:center}
+#bar b{font-family:var(--display);font-weight:400;font-size:15px}
+#bar small{font-size:11px;color:var(--muted);min-height:1.3em;font-variant-numeric:tabular-nums}
+#bar button[aria-pressed="true"]{background:var(--accent);color:var(--on);border-color:var(--accent)}#bar button[aria-pressed="true"] small{color:var(--on)}
+#bar button.off{opacity:.55}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-block:2px 8px}
+#note{font-size:12px;color:var(--muted);min-width:0}
+#mute{flex:none;background:none;border:1px solid var(--line);border-radius:7px;padding:3px 8px;font-size:12px;color:var(--fg)}
+</style>
+</head><body>
+<div id="app">
+  <header class="pad"><h1>{{TITLE}}</h1><span id="live" aria-live="polite">연결 중</span></header>
+  <div id="stage"><div id="labels" aria-hidden="true"></div><div id="toast" role="status" hidden></div>
+    <div id="gate"><h2>{{GATE}}</h2><p>오늘은 <strong id="who"></strong>(으)로 들어가요. 장면 속 닉네임과 외형은 로그인 신원과 별개예요.</p><p>개발자: 홍서진 · <a href="licenses.html" target="_blank" rel="noopener">오픈소스 고지</a></p><small id="auth-status" role="status">로그인 상태 확인 중</small><a id="auth-login" href="#" hidden>로드스타로 로그인</a><button class="primary" id="enter" disabled>들어가기</button></div>
+  </div>
+  <div id="bar" class="pad" hidden></div>
+  <div class="foot pad"><p id="note"></p><button id="auth-logout" hidden>로그아웃</button><button id="mute" aria-pressed="false">소리 끄기</button></div>
+</div>
+<script>window.APP_ROOM='{{ROOM}}';window.APP_CONFIG={{CONFIG}};</script>
+<script src="auth/index.js"></script>{{VENDOR}}
+<script src="realtime/validate.js"></script>
+<script src="realtime/adapter.js"></script>
+<script>{{SCENE}}</script>
+<script>{{ENGINE}}</script>
+
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(function(){});</script>
