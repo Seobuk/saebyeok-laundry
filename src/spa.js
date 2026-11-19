@@ -47,7 +47,7 @@ window.SCENE={
  poseLabel:{gaze:'멍',soak:'탕에서 쉬는 중',sit:'찜질 중',drink:'식혜 마시는 중',lie:'누워 쉬는 중'},
  spawn:function(){return{x:1.5+Math.random(),z:2}},
  hopAt:function(a){return inPool(WARM,a.x,a.z)||inPool(COLD,a.x,a.z)},
- npcs:[{x:WARM.x-.7,z:WARM.z+.5,fy:.3,pose:'soak'},{x:CLAY.x+.8,z:CLAY.z+.5,fy:0,pose:'sit',tw:true},{x:-1,z:REST.z+.5,fy:.4,pose:'drink',tw:true},{x:SALT.x-.5,z:SALT.z+.2,fy:0,pose:'sit',tw:true},{x:COLD.x+.2,z:COLD.z+.2,fy:-.3,pose:'soak'}],
+ npcs:[],
  onWalk:function(a){stop(a)},
  sound:function(a){if(act==='warm'||act==='cold')return[.16,700];if(act==='clay'||act==='salt')return[.12,260];if(act==='drink'||act==='lie')return[.05,380];return[.07,520]},
  tick:function(a,n,t){waters.forEach(function(w){w.material.uniforms.t.value=t});steam.forEach(function(s){var u=s.userData,q=(t*.09+u.o)%1;s.position.set(u.x+Math.sin(t*.6+u.o*9)*.12,u.base+q*2.1,u.z);s.material.opacity=.42*Math.sin(q*Math.PI);s.scale.setScalar(.6+q*.9)})},
