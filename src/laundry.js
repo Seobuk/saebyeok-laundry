@@ -170,7 +170,7 @@ window.SCENE={
  lights:{sky:0xe6eeff,ground:0x5d6480,hemi:.34,sunColor:0xf4f8ff,sun:.34,sunPos:[-3,14,8]},outfit:{shoes:0x3f4a63,hood:true},build:build,
  poseLabel:{gaze:'빨래멍',load:'빨래 넣는 중',fold:'빨래 개는 중',sit:'쉬는 중'},
  spawn:function(){return{x:-1+Math.random()*1.6,z:3.8+Math.random()*.8}},
- npcs:[{x:mx(0),z:-2,fy:Math.PI,pose:'gaze',m:0},{x:tableX-.1,z:tableZ+.82,fy:Math.PI,pose:'fold'},{x:mx(3),z:-2,fy:Math.PI,pose:'gaze',m:3},{x:-2.6,z:1.1,fy:Math.PI/2,pose:'sit'}],
+ npcs:[],
  onWalk:function(a){stopAct(a)},
  sound:function(a){if(gazing)return[.2,560];for(var i=0;i<N;i++)if(state(a,i)===1)return[.09,430];return[.03,300]},
  tick:function(a,n,t,dt){
