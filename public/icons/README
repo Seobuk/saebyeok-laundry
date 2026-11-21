@@ -1,8 +1,8 @@
-새벽빨래방 · 따순물 찜질스파 — 주황 시리즈 S1 아이콘
+새벽빨래방 — 주황 시리즈 S1 아이콘
 개발자: 홍서진
 
-아이콘 원본: 사용자가 선택한 saebyeok_S1.png (1024×1024, RGB).
-sources/saebyeok_S1.png에 원본을 그대로 보관합니다.
+아이콘 원본: 사용자가 선택한 saebyeok_S1.png (RGB).
+sources/saebyeok_S1.png에는 저장 용량을 줄인 512×512 축소본을 보관합니다.
 기존 SVG 시안 03_moon_icon.svg, 03_moon_og.svg, ttasun_spa_icon.svg도 보존합니다.
 
 파일 / 크기 / 참조
@@ -11,13 +11,12 @@ sources/saebyeok_S1.png에 원본을 그대로 보관합니다.
 - maskable-512.png: 512×512, manifest.webmanifest (purpose=maskable)
 - apple-touch-icon.png: 180×180, 새벽빨래방 HTML
 - favicon-32.png: 32×32, 새벽빨래방 HTML
-- favicon.svg: 1024×1024 viewBox, 원본 PNG를 내장한 SVG, 새벽빨래방 HTML
-- spa- 접두사의 동일 6종: 같은 크기·S1 원본, spa.webmanifest / 따순물 찜질스파 HTML
+- favicon.svg: 64×64 viewBox, 64px PNG를 내장한 경량 SVG, 새벽빨래방 HTML
+- spa- 접두사의 동일 6종: 별도 앱의 기존 아이콘 보존 (9786ba4 바이트), spa.webmanifest / 따순물 찜질스파 HTML
 
 공유·표지 이미지는 기존 모습을 유지합니다.
 - 03_moon_og.png: 기존 1200×630, 새벽빨래방 og:image / twitter:image (변경 없음)
-- spa-og.png: 기존 spa-icon-512.png를 바이트 그대로 보존한 512×512 공유 이미지.
-  스파 og:image / twitter:image는 새 아이콘 대신 이 파일을 참조합니다.
+- spa-icon-512.png: 스파 og:image / twitter:image도 기존 512×512 아이콘을 참조합니다.
 
 아이콘은 불투명 원본 전체를 자르거나 여백을 추가하지 않고 축소합니다.
 maskable도 같은 방식이며 모든 기기의 마스크 안전 영역을 보장하지 않습니다.
@@ -30,4 +29,5 @@ iOS 시작 화면 이미지는 추가하지 않습니다. 개발자 표기와 �
   BASE=/apps/saebyeok/ BACKEND=lodestar npm run build
   /usr/bin/python3 scripts/verify-cover-assets.py
 기존 아이콘 생성 스크립트의 librsvg/Cairo 렌더러를 사용합니다.
-스크립트는 S1 PNG에서 아이콘 12종만 생성하며 공유·표지 이미지는 쓰지 않습니다.
+스크립트는 S1 PNG에서 빨래방 아이콘 6종만 생성하며 스파 아이콘과 공유·표지 이미지는 쓰지 않습니다.
+검증 스크립트는 스파·표지 바이트 보존, favicon 64px 이하·32 KiB 이하, S1 보관본 512px·256 KiB 이하도 확인합니다.
