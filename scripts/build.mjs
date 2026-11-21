@@ -34,7 +34,7 @@ const shell=await read('shell.html'),engine=await read('engine.js');
 for(const [name,title,accent,gate,room,scene] of [
  ['saebyeok-laundry','새벽빨래방','#ec5f8b','불 켜진 빨래방에 들어가요','laundry','laundry.js'],
  ['ttasun-spa','따순물 찜질스파','#e8493a','신발 벗고 들어오세요','spa','spa.js']]){
-  const values={ICON_PREFIX:room==='laundry'?'':'spa-',OG_IMAGE:room==='laundry'?'icons/03_moon_og.png':'icons/spa-icon-512.png',OG_WIDTH:room==='laundry'?'1200':'512',OG_HEIGHT:room==='laundry'?'630':'512',OG_ALT:room==='laundry'?'달빛 빨래멍 — 새벽빨래방, 개발자 홍서진':'따순찜질스파 아이콘',TITLE:title,ACCENT:accent,COLS:'4',GATE:gate,ROOM:room,MANIFEST:room==='laundry'?'manifest.webmanifest':'spa.webmanifest',CONFIG:JSON.stringify(config),VENDOR:vendor,SCENE:await read(scene),ENGINE:engine};
+  const values={ICON_PREFIX:room==='laundry'?'':'spa-',OG_IMAGE:room==='laundry'?'icons/03_moon_og.png':'icons/spa-og.png',OG_WIDTH:room==='laundry'?'1200':'512',OG_HEIGHT:room==='laundry'?'630':'512',OG_ALT:room==='laundry'?'달빛 빨래멍 — 새벽빨래방, 개발자 홍서진':'따순찜질스파 아이콘',TITLE:title,ACCENT:accent,COLS:'4',GATE:gate,ROOM:room,MANIFEST:room==='laundry'?'manifest.webmanifest':'spa.webmanifest',CONFIG:JSON.stringify(config),VENDOR:vendor,SCENE:await read(scene),ENGINE:engine};
   const body=shell.replace(/\{\{(\w+)\}\}/g,(_,key)=>values[key]??(()=>{throw new Error(key)})());
   const html='<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}body{margin:0}</style>'+body+'</body></html>';
   await writeFile(join(dist,name+'.html'),html);console.log('built',name+'.html');

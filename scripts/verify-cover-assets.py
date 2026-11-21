@@ -40,7 +40,7 @@ for manifest in DIST.glob('*.webmanifest'):
             header = f.read(24)
         assert 'x'.join(map(str, struct.unpack('>II', header[16:24]))) == icon['sizes']
 
-expected = {'03_moon_og.png': (1200, 630)}
+expected = {'03_moon_og.png': (1200, 630), 'spa-og.png': (512, 512)}
 for prefix in ('', 'spa-'):
     for name, size in [('icon-192', 192), ('icon-512', 512), ('maskable-512', 512), ('apple-touch-icon', 180), ('favicon-32', 32)]:
         expected[f'{prefix}{name}.png'] = (size, size)
