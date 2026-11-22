@@ -24,7 +24,23 @@ for(const backend of ['local','lodestar'])test(`${backend} build has no secrets,
  assert.equal(b.list.some(f=>f.endsWith('vendor/supabase.js')),backend==='lodestar');
  // Three.js is vendored from npm three 0.128.0 (r128): no build references cdnjs, every page loads it same-origin.
  for(const [file,text] of b.text)assert.equal(text.split('cdnjs').length-1,0,`cdnjs in ${file}`);
- for(const page of ['saebyeok-laundry.html','ttasun-spa.html']){const h=b.text.find(([f])=>f.endsWith(page))[1];assert.match(h,/<script src="vendor\/three\.min\.js"><\/script>/);assert.equal((h.match(/<script src="https?:/g)||[]).length,0,'no third-party script in '+page);}
+ for(const page of ['saebyeok-laundry.html','ttasun-spa.html']){const h=b.text.find(([f])=>f.endsWith(page))[1];assert.match(h,/<script src="vendor\/three\.min\.js"><\/script>/);assert.equal((h.match(/<script src="https?:/g)||[]).length,0,'no third-party script in '+page);assert.doesNotMatch(h,/(src|href)="\/(?!\/)/,'asset and navigation references stay relative in '+page);}
+ const spaHtml=b.text.find(([f])=>f.endsWith('ttasun-spa.html'))[1];
+ const laundrySwitch=html.match(/<a\b[^>]*\bid="room-switch"[^>]*>([^<]*)<\/a>/);
+ const spaSwitch=spaHtml.match(/<a\b[^>]*\bid="room-switch"[^>]*>([^<]*)<\/a>/);
+ assert.ok(laundrySwitch,'room-switch link exists in saebyeok-laundry.html');
+ assert.ok(spaSwitch,'room-switch link exists in ttasun-spa.html');
+ assert.match(laundrySwitch[0],/\bhref="ttasun-spa\.html"/);
+ assert.match(laundrySwitch[0],/\baria-label="따순물 찜질스파로 이동"/);
+ assert.match(laundrySwitch[1],/따순물 찜질스파/);
+ assert.doesNotMatch(laundrySwitch[0],/\btarget=/i,'no target="_blank" on laundry switch link');
+ assert.match(spaSwitch[0],/\bhref="saebyeok-laundry\.html"/);
+ assert.match(spaSwitch[0],/\baria-label="새벽빨래방으로 돌아가기"/);
+ assert.match(spaSwitch[1],/새벽빨래방/);
+ assert.doesNotMatch(spaSwitch[0],/\btarget=/i,'no target="_blank" on spa return link');
+ assert.match(html,/window\.APP_ROOM='laundry'/);
+ assert.match(spaHtml,/window\.APP_ROOM='spa'/);
+ for(const mf of ['manifest.webmanifest','spa.webmanifest']){const m=JSON.parse(b.text.find(([f])=>f.endsWith('/'+mf))[1]);assert.equal(m.scope,'./');assert.equal(m.display,'standalone');}
  const three=await readFile(join(b.dir,'vendor/three.min.js'),'utf8'),pkg=JSON.parse(await readFile(join(root,'node_modules/three/package.json'),'utf8'));
  assert.equal(pkg.version,'0.128.0');assert.equal(three,await readFile(join(root,'node_modules/three/build/three.min.js'),'utf8'));assert.match(three,/SPDX-License-Identifier: MIT/);
  assert.match(await readFile(join(b.dir,'licenses/THREE-MIT.txt'),'utf8'),/three\.js authors/);

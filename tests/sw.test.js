@@ -31,3 +31,23 @@ test('install precache skips redirected responses',async()=>{
  let done;w.handlers.install({waitUntil:p=>{done=p;}});await done;
  assert.ok(w.store.size>0);for(const key of w.store.keys())assert.match(key,/\.png$/);
 });
+test('install/activate updates cache to v8, purges v7 cache, and claims clients when supported',async()=>{
+ const opened=[],deleted=[],existing=['saebyeok-static-v7-laundry-icons','saebyeok-static-v8-room-switch','unrelated-cache'];
+ let skipped=false,claimed=false;
+ const store=new Map(),handlers={};
+ const cache={async put(req,res){store.set(typeof req==='string'?new URL(req,SCOPE).href:req.url,res);}};
+ const context={URL,Request:class{constructor(u){this.url=new URL(u,SCOPE).href;}},
+  self:{location:new URL(SCOPE+'sw.js'),addEventListener:(t,fn)=>handlers[t]=fn,skipWaiting:async()=>{skipped=true;},clients:{claim:async()=>{claimed=true;}}},
+  caches:{open:async name=>{opened.push(name);return cache;},keys:async()=>[...existing],match:async()=>undefined,delete:async name=>{deleted.push(name);return true;}},
+  fetch:async url=>response(String(url).endsWith('.html')?'text/html':String(url).endsWith('.js')?'text/javascript':String(url).endsWith('.webmanifest')?'application/manifest+json':String(url).endsWith('.png')?'image/png':String(url).endsWith('.svg')?'image/svg+xml':'text/plain'),
+  Promise,Object,Boolean};
+ vm.runInNewContext(source,context);
+ let installed;handlers.install({waitUntil:p=>{installed=p;}});await installed;
+ assert.deepEqual(opened,['saebyeok-static-v8-room-switch']);
+ assert.equal(skipped,true);
+ assert.equal(store.has(SCOPE+'saebyeok-laundry.html'),true);
+ assert.equal(store.has(SCOPE+'ttasun-spa.html'),true);
+ let activated;handlers.activate({waitUntil:p=>{activated=p;}});await activated;
+ assert.deepEqual(deleted,['saebyeok-static-v7-laundry-icons']);
+ assert.equal(claimed,true);
+});
